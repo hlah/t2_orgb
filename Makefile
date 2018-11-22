@@ -9,13 +9,8 @@ IDIR=include
 SDIR=source
 # Dependecies directory
 DDIR=.depends
-# Tests directory
-TDIR=tests
 # target
 TARGET=puzzle_solver
-
-# library name
-LIBNAME=example
 
 # Compilation flags
 CFLAGS=-g -std=c++11 -I$(IDIR)/ 
@@ -31,7 +26,7 @@ OBJS=$(patsubst %,$(ODIR)/%,$(_OBJS))
 
 main: $(OBJS)
 	mkdir -p $(ODIR)
-	$(CC) $< -o $(ODIR)/$(TARGET) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(ODIR)/$(TARGET) 
 
 # build objects
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
