@@ -5,8 +5,10 @@
 
 int main() {
 
-	auto problem = EightPuzzleProblem({2, 6, 8, 0, 5, 1, 3, 7, 4});
-	//auto problem = EightPuzzleProblem({1, 4, 2, 6, 3, 5, 0, 7, 8});
+	//auto problem = EightPuzzleProblem({2, 6, 8, 0, 5, 1, 3, 7, 4});
+	//auto problem = EightPuzzleProblem({1, 0, 2, 3, 4, 5, 6, 7, 8});
+	//auto problem = EightPuzzleProblem({1, 4, 2, 3, 5, 8, 6, 0, 7});
+	auto problem = EightPuzzleProblem({1, 4, 2, 6, 3, 8, 5, 0, 7});
 
 
 	std::cout << "Problem:\n";
