@@ -1,47 +1,32 @@
 #include <iostream>
 
 #include "eight_puzzle_problem.h"
-
-void print_state(const EightPuzzleProblem::State& state) {
-	for( int i = 0; i < 3; i++ ) {
-		for( int j = 0; j < 3; j++ ) {
-			std::cout << (int)state[3*i+j] << ' ';
-		}
-		std::cout << '\n';
-	}
-}
-
-void print_action(const EightPuzzleProblem::Action& action) {
-	switch(action) {
-		case EightPuzzleProblem::Action::UP:
-			std::cout << "UP";
-			break;
-		case EightPuzzleProblem::Action::DOWN:
-			std::cout << "DOWN";
-			break;
-		case EightPuzzleProblem::Action::LEFT:
-			std::cout << "LEFT";
-			break;
-		case EightPuzzleProblem::Action::RIGHT:
-			std::cout << "RIGHT";
-			break;
-	}
-}
+#include "bfs.h"
 
 int main() {
 
-	std::cout << "Hello World!\n";
-
 	auto problem = EightPuzzleProblem({2, 6, 8, 0, 5, 1, 3, 7, 4});
+	//auto problem = EightPuzzleProblem({1, 4, 2, 6, 3, 5, 0, 7, 8});
 
-	auto nodes = problem.expand( problem.initial_state() );
 
-	for( auto node : nodes ) {
-		print_action( node.action );
+	std::cout << "Problem:\n";
+	problem.print_state( problem.initial_state() );
+
+	/*
+	for( auto node : problem.expand( problem.initial_state() ) ) {
+		problem.print_action( node.action );
 		std::cout << '\n';
-		print_state( node.state );
-		std::cout << "cost: " << (int) node.cost << '\n';
+		problem.print_state( node.state );
 	}
+	*/
+
+	auto solution = bfs( problem );
+	std::cout << "Solution: ";
+	for( auto action : solution ) {
+		problem.print_action( action );
+		std::cout << ' ';
+	}
+	std::cout << '\n';
 
 	return 0;
 }

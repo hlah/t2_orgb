@@ -30,6 +30,12 @@ class EightPuzzleProblem {
 
 		std::vector<Node> expand(const State& state) const;
 
+		State revert_action( const State& state, const Action& action ) const;
+
+		void print_state( State state ) const;
+
+		void print_action( Action action ) const;
+
 
 	private:
 
