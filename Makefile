@@ -10,10 +10,12 @@ SDIR=source
 # Dependecies directory
 DDIR=.depends
 # target
-TARGET=puzzle_solver
+TARGET_NAME=puzzle_solver
 
 # Compilation flags
-CFLAGS=-g -std=c++11 -I$(IDIR)/ 
+CFLAGS=-std=c++11 -I$(IDIR)/ 
+DEBUGFLAGS=-g
+RELEASEFLAGS=-static
 
 # Create dependencies directory
 $(shell mkdir -p $(DDIR) > /dev/null)
@@ -21,17 +23,25 @@ $(shell mkdir -p $(DDIR) > /dev/null)
 DFLAGS=-MT $(patsubst $(SDIR)/%.cpp, $(ODIR)/%.o, $<) -MMD -MP -MF $(DDIR)/$*.d
 
 # Object list (derived from source directory)
-_OBJS=$(patsubst $(SDIR)/%.cpp, %.o, $(shell shopt -s nullglob && echo $(SDIR)/*.cpp))
-OBJS=$(patsubst %,$(ODIR)/%,$(_OBJS))
+OBJS=$(patsubst $(SDIR)/%.cpp, %.o, $(shell shopt -s nullglob && echo $(SDIR)/*.cpp))
 
-main: $(OBJS)
-	mkdir -p $(ODIR)
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(ODIR)/$(TARGET) 
+debug: $(patsubst %,$(ODIR)/debug/%,$(OBJS))
+	mkdir -p $(ODIR)/debug/
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) $(DFLAGS) $^ -o $(ODIR)/debug/$(TARGET_NAME) 
+
+release: $(patsubst %,$(ODIR)/release/%,$(OBJS))
+	mkdir -p $(ODIR)/release/
+	$(CC) $(CFLAGS) $(RELEASEFLAGS) $(DFLAGS) $^ -o $(ODIR)/release/$(TARGET_NAME) 
+
 
 # build objects
-$(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
-	mkdir -p $(ODIR)
-	$(CC) -c $(DFLAGS) $(CFLAGS) -o $@ $<
+$(ODIR)/debug/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
+	mkdir -p $(ODIR)/debug/
+	$(CC) -c $(DFLAGS) $(DEBUGFLAGS) $(CFLAGS) -o $@ $<
+
+$(ODIR)/release/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
+	mkdir -p $(ODIR)/release/
+	$(CC) -c $(DFLAGS) $(RELEASEFLAGS) $(CFLAGS) -o $@ $<
 
 
 # empty rule, so make do not fail if dependency file do not exist (e.g firt make after make clean)
@@ -43,6 +53,6 @@ $(DDIR)/%.d: ;
 
 # clean directory
 clean:
-	rm -f $(ODIR)/* ${DDIR}/* ./**/{*~,.*~,.*.sw?} ./{*~,.*~,.*.sw?} $(LDIR)/lib$(LIBNAME).a
+	rm -rf $(ODIR)/* ${DDIR}/* ./**/{*~,.*~,.*.sw?} ./{*~,.*~,.*.sw?} $(LDIR)/lib$(LIBNAME).a
 
 .PHONY: clean make-lib all lib
