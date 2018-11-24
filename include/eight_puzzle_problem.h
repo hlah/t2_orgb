@@ -28,7 +28,7 @@ class EightPuzzleProblem {
 
 		bool is_goal(const State& state) const;
 
-		std::vector<Node> expand(const State& state) const;
+		std::vector<Node> expand(const Node& node) const;
 
 		State revert_action( const State& state, const Action& action ) const;
 

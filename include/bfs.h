@@ -11,25 +11,25 @@ std::vector<typename P::Action> bfs( const P& problem ) {
 	std::vector<typename P::Action> solution{};
 
 	// fila
-	std::queue<typename P::State> open_list;
+	std::queue<typename P::Node> open_list;
 
 	std::map<typename P::State, typename P::Action> closed_list;
 
-	open_list.push( problem.initial_state() );
+	open_list.push( {problem.initial_state(), P::Action::UP, 0} );
 
 	bool found = false;
 
 	while( !open_list.empty() && !found ) {
 
-		auto current_state = open_list.front();
+		auto current_node = open_list.front();
 
 		open_list.pop();
 
-		for( auto new_node : problem.expand( current_state ) ) {
+		for( auto new_node : problem.expand( current_node ) ) {
 
 			if( closed_list.find( new_node.state ) == closed_list.end() ) {
 
-				open_list.push( new_node.state );
+				open_list.push( new_node );
 				closed_list[new_node.state] = new_node.action;
 
 				if( problem.is_goal( new_node.state ) ) {
