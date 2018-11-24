@@ -3,6 +3,7 @@
 #include "eight_puzzle_problem.h"
 #include "bfs.h"
 #include "astar.h"
+#include "idastar.h"
 
 #include <cstdlib> 
 
@@ -10,6 +11,8 @@ unsigned int manhattan_distance( EightPuzzleProblem::State state ) {
 	unsigned int h = 0;
 
 	for( int i = 0; i < 9; i++ ) {
+		if( state[i] == 0 )
+			continue;
 
 		int pos_x = i%3;
 		int pos_y = i/3;
@@ -38,9 +41,10 @@ int main(int argc, char** argv) {
 
 	//auto problem = EightPuzzleProblem({2, 6, 8, 0, 5, 1, 3, 7, 4});
 	//auto problem = EightPuzzleProblem({1, 0, 2, 3, 4, 5, 6, 7, 8});
+	//auto problem = EightPuzzleProblem({1, 4, 2, 3, 0, 5, 6, 7, 8});
 	//auto problem = EightPuzzleProblem({1, 4, 2, 3, 5, 8, 6, 0, 7});
 	auto problem = EightPuzzleProblem({1, 4, 2, 6, 3, 8, 5, 0, 7});
-	//auto problem = EightPuzzleProblem({1, 2, 0, 6, 4, 8, 5, 6, 7});
+	//auto problem = EightPuzzleProblem({1, 2, 0, 6, 4, 8, 5, 3, 7});
 
 
 
@@ -64,6 +68,10 @@ int main(int argc, char** argv) {
 	else if( option == 1 ) {
 		std::cout << "Doing A*...\n";
 		solution = astar( problem, manhattan_distance );
+	}
+	else {
+		std::cout << "Doing IDA*...\n";
+		solution = idastar( problem, manhattan_distance );
 	}
 
 	std::cout << "Solution: ";
