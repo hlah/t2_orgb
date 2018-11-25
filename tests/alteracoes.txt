@@ -1,0 +1,4 @@
+Alterações:
+	- Cache L1 dados: 32Kb -> 1kb
+	- Preditor de desvios: TournamentBP -> LocalBP
+	- IntALUs: 2 -> 1

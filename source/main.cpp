@@ -45,6 +45,7 @@ int main(int argc, char** argv) {
 	//auto problem = EightPuzzleProblem({1, 4, 2, 3, 5, 8, 6, 0, 7});
 	auto problem = EightPuzzleProblem({1, 4, 2, 6, 3, 8, 5, 0, 7});
 	//auto problem = EightPuzzleProblem({1, 2, 0, 6, 4, 8, 5, 3, 7});
+	//auto problem = EightPuzzleProblem({1, 2, 8, 6, 0, 4, 5, 3, 7});
 
 
 
